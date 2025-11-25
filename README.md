@@ -38,7 +38,7 @@ Este proyecto permite explorar una temática libre: clima real, ciudades icónic
 ---
 
 ## 🧩 Requisitos funcionales
-
+- funcionalidades
 - ✔️ 10+ localidades en Home como cards.
 - ✔️ Al hacer click en una ciudad, se navega a la vista Detalle.
 - ✔️ Vista Detalle con pronóstico semanal.
