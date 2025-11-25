@@ -1,0 +1,311 @@
+<!--
+README (in-file): weather-frontend-mvp
+
+Descripción breve:
+Este repositorio contiene la primera versión (MVP) del frontend de una aplicación de clima.
+Tecnologías: HTML5 semántico, Bootstrap 5 (CDN), JavaScript vanilla.
+Objetivos cubiertos:
+ - Estructura semántica (header, nav, main, section, article, footer)
+ - Bootstrap grid, utilidades y componentes
+ - Interacciones DOM con JS (click para ver detalle, estado simple)
+ - Instrucciones para versionado con Git/GitHub
+
+Cómo usar:
+ - Abrir este archivo `weather-frontend-mvp.html` en tu navegador (doble clic o servidor local).
+ - No requiere backend; los datos son mock (simulados) en el archivo JS.
+
+Instrucciones Git/GitHub (sugerido):
+ 1. git init
+ 2. git add .
+ 3. git commit -m "init: proyecto weather-frontend-mvp - estructura base"
+ 4. git branch -M main
+ 5. Crear repo público en GitHub llamado `weather-frontend-m2` y conectar remoto
+    git remote add origin https://github.com/<tu-user>/weather-frontend-m2.git
+ 6. git push -u origin main
+ 7. Durante el desarrollo, crear ramas y commits descriptivos:
+    - git checkout -b feature/home-cards
+    - git commit -m "feat(home): agregar cards de ciudades y grid responsive"
+    - git checkout -b feature/detail-view
+    - git commit -m "feat(detail): vista de detalle con pronóstico semanal"
+
+Ideas para ampliar (post-MVP):
+ - Conectar API real (OpenWeatherMap, WeatherAPI) para datos dinámicos
+ - Guardar favoritos en localStorage
+ - Agregar búsqueda y filtros
+ - Mejorar accesibilidad y pruebas unitarias
+
+Licencia: MIT (opcional)
+-->
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weather Frontend MVP</title>
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-" crossorigin="anonymous">
+  <style>
+    /* Estilos mínimos adicionales */
+    .city-card { cursor: pointer; }
+    .weather-icon { width: 48px; height: 48px; }
+    .forecast-day { min-width: 120px; }
+    @media (max-width: 420px) {
+      .forecast-day { min-width: 100px; }
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="#" id="nav-home">WeatherMVP</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu" aria-controls="navmenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navmenu">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link active" href="#" id="link-home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" id="link-about">Acerca</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-fill">
+    <section id="home" class="py-4">
+      <div class="container">
+        <header class="d-flex align-items-center justify-content-between mb-3">
+          <h1 class="h3 mb-0">Ciudades</h1>
+          <div>
+            <button class="btn btn-sm btn-light me-2" id="btn-refresh">Actualizar (simulado)</button>
+            <span class="badge bg-secondary" id="cities-count">10 ciudades</span>
+          </div>
+        </header>
+
+        <div class="row g-3" id="cities-grid" aria-live="polite">
+          <!-- Cards generadas por JS -->
+        </div>
+      </div>
+    </section>
+
+    <section id="detail" class="py-4 d-none">
+      <div class="container">
+        <button class="btn btn-link mb-3" id="btn-back">← Volver</button>
+        <article class="card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <h2 id="detail-city" class="h4 mb-1">Ciudad</h2>
+                <p class="mb-0 text-muted" id="detail-desc">Estado del clima</p>
+              </div>
+              <div class="text-end">
+                <div class="fs-3 fw-bold" id="detail-temp">--°C</div>
+                <div class="text-muted small" id="detail-humidity-wind">Humedad · Viento</div>
+              </div>
+            </div>
+
+            <hr>
+            <h3 class="h6">Pronóstico semanal</h3>
+            <div class="d-flex gap-2 overflow-auto py-2" id="forecast-list" role="list">
+              <!-- Dias generados por JS -->
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="py-4 d-none">
+      <div class="container">
+        <h2 class="h4">Acerca de</h2>
+        <p>Proyecto de práctica: frontend de aplicación de clima. Implementado con HTML5 semántico, Bootstrap y JavaScript. Datos simulados en el frontend.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-light py-3 mt-auto border-top">
+    <div class="container d-flex justify-content-between align-items-center">
+      <small>Weather Frontend MVP — creado para el M2 · Ejemplo educativo</small>
+      <div>
+        <a href="#" class="me-2">Repo</a>
+        <a href="#">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle JS (Popper incluido) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-" crossorigin="anonymous"></script>
+
+  <script>
+    // Datos simulados (mock) para 10 localidades
+    const cities = [
+      { id: 'santiago', name: 'Santiago', country: 'Chile', temp: 22, state: 'Soleado', humidity: 35, wind: '12 km/h' },
+      { id: 'valparaiso', name: 'Valparaíso', country: 'Chile', temp: 18, state: 'Nublado', humidity: 60, wind: '20 km/h' },
+      { id: 'barra', name: 'Barra del Tabo', country: 'Chile', temp: 16, state: 'Lluvia ligera', humidity: 82, wind: '15 km/h' },
+      { id: 'nyc', name: 'New York', country: 'USA', temp: 10, state: 'Parcialmente nublado', humidity: 50, wind: '8 km/h' },
+      { id: 'london', name: 'London', country: 'UK', temp: 12, state: 'Lluvia', humidity: 70, wind: '22 km/h' },
+      { id: 'tokyo', name: 'Tokyo', country: 'Japan', temp: 20, state: 'Soleado', humidity: 40, wind: '10 km/h' },
+      { id: 'sydney', name: 'Sydney', country: 'Australia', temp: 25, state: 'Soleado', humidity: 30, wind: '14 km/h' },
+      { id: 'paris', name: 'Paris', country: 'France', temp: 14, state: 'Nublado', humidity: 55, wind: '9 km/h' },
+      { id: 'madrid', name: 'Madrid', country: 'Spain', temp: 19, state: 'Soleado', humidity: 28, wind: '11 km/h' },
+      { id: 'moscow', name: 'Moscow', country: 'Russia', temp: -5, state: 'Nieve', humidity: 80, wind: '30 km/h' }
+    ];
+
+    // Genera pronóstico semanal de ejemplo (7 días) para una ciudad
+    function generateWeeklyForecast(baseTemp) {
+      const days = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+      return days.map((d, i) => {
+        const offset = Math.round((Math.sin(i/2) * 3) + (Math.random()*2 -1));
+        const temp = baseTemp + offset;
+        const state = temp <= 0 ? 'Nieve' : (temp < 10 ? 'Frío' : (temp < 18 ? 'Nublado' : 'Soleado'));
+        return { day: d, temp, state };
+      });
+    }
+
+    // Mapa simple de iconos (solo emojis para mantenerlo ligero)
+    const icons = {
+      'Soleado': '☀️', 'Nublado': '☁️', 'Lluvia': '🌧️', 'Lluvia ligera': '🌦️', 'Parcialmente nublado': '⛅', 'Nieve': '❄️', 'Frío': '🧊'
+    };
+
+    // Referencias DOM
+    const citiesGrid = document.getElementById('cities-grid');
+    const citiesCount = document.getElementById('cities-count');
+    const detailSection = document.getElementById('detail');
+    const homeSection = document.getElementById('home');
+    const aboutSection = document.getElementById('about');
+    const forecastList = document.getElementById('forecast-list');
+    const detailCity = document.getElementById('detail-city');
+    const detailDesc = document.getElementById('detail-desc');
+    const detailTemp = document.getElementById('detail-temp');
+    const detailHumidityWind = document.getElementById('detail-humidity-wind');
+    const btnBack = document.getElementById('btn-back');
+    const btnRefresh = document.getElementById('btn-refresh');
+    const linkHome = document.getElementById('link-home');
+    const linkAbout = document.getElementById('link-about');
+    const navHome = document.getElementById('nav-home');
+
+    // Inicializar
+    function init() {
+      renderCities();
+      citiesCount.textContent = `${cities.length} ciudades`;
+      attachNav();
+    }
+
+    function renderCities() {
+      citiesGrid.innerHTML = '';
+      cities.forEach(city => {
+        const col = document.createElement('div');
+        col.className = 'col-12 col-sm-6 col-md-4 col-lg-3';
+
+        const card = document.createElement('article');
+        card.className = 'card city-card h-100';
+        card.setAttribute('tabindex','0');
+        card.setAttribute('role','button');
+        card.dataset.cityId = city.id;
+
+        card.innerHTML = `
+          <div class="card-body d-flex align-items-center justify-content-between">
+            <div>
+              <h3 class="h6 mb-1">${city.name}</h3>
+              <p class="mb-0 text-muted small">${city.country}</p>
+            </div>
+            <div class="text-end">
+              <div class="d-flex align-items-center gap-2">
+                <div class="weather-icon" aria-hidden="true">${icons[city.state] || '⛅'}</div>
+                <div class="fs-5 fw-bold">${city.temp}°C</div>
+              </div>
+              <div class="small text-muted">${city.state}</div>
+            </div>
+          </div>
+        `;
+
+        // Click y key event para accesibilidad
+        card.addEventListener('click', () => openDetail(city.id));
+        card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') openDetail(city.id); });
+
+        col.appendChild(card);
+        citiesGrid.appendChild(col);
+      });
+    }
+
+    function openDetail(cityId) {
+      const city = cities.find(c => c.id === cityId);
+      if (!city) return;
+      // Render detalle
+      detailCity.textContent = `${city.name}, ${city.country}`;
+      detailDesc.textContent = city.state;
+      detailTemp.textContent = `${city.temp}°C`;
+      detailHumidityWind.textContent = `Humedad: ${city.humidity}% · Viento: ${city.wind}`;
+
+      // Pronóstico
+      const forecast = generateWeeklyForecast(city.temp);
+      forecastList.innerHTML = '';
+      forecast.forEach(day => {
+        const dayCard = document.createElement('div');
+        dayCard.className = 'card p-2 forecast-day text-center';
+        dayCard.setAttribute('role','listitem');
+        dayCard.innerHTML = `
+          <div class="small text-muted">${day.day}</div>
+          <div class="fs-5 fw-bold">${day.temp}°C</div>
+          <div class="small">${icons[day.state] || day.state}</div>
+        `;
+        forecastList.appendChild(dayCard);
+      });
+
+      // Mostrar detalle, ocultar home
+      homeSection.classList.add('d-none');
+      aboutSection.classList.add('d-none');
+      detailSection.classList.remove('d-none');
+
+      // Actualizar URL (sin recargar) para navegación simple
+      history.pushState({ view: 'detail', cityId }, '', `#detail/${cityId}`);
+    }
+
+    function showHome() {
+      detailSection.classList.add('d-none');
+      aboutSection.classList.add('d-none');
+      homeSection.classList.remove('d-none');
+      history.pushState({ view: 'home' }, '', '#home');
+    }
+
+    function showAbout() {
+      detailSection.classList.add('d-none');
+      homeSection.classList.add('d-none');
+      aboutSection.classList.remove('d-none');
+      history.pushState({ view: 'about' }, '', '#about');
+    }
+
+    btnBack.addEventListener('click', showHome);
+    navHome.addEventListener('click', (e) => { e.preventDefault(); showHome(); });
+    linkHome.addEventListener('click', (e) => { e.preventDefault(); showHome(); });
+    linkAbout.addEventListener('click', (e) => { e.preventDefault(); showAbout(); });
+
+    // Simula "actualizar datos" (re-render con pequeños cambios aleatorios)
+    btnRefresh.addEventListener('click', () => {
+      cities.forEach(c => { c.temp += Math.round(Math.random()*2 -1); });
+      renderCities();
+    });
+
+    // Manejar navegación con botones atrás del navegador
+    window.addEventListener('popstate', (ev) => {
+      const state = ev.state;
+      if (!state) { showHome(); return; }
+      if (state.view === 'detail' && state.cityId) openDetail(state.cityId);
+      else if (state.view === 'about') showAbout();
+      else showHome();
+    });
+
+    // Inicializa la app y soporta enlaces directos #detail/<id>
+    init();
+    (function handleDirectLink() {
+      const hash = location.hash;
+      if (hash.startsWith('#detail/')) {
+        const id = hash.split('/')[1];
+        const found = cities.find(c => c.id === id);
+        if (found) openDetail(id);
+      }
+    })();
+  </script>
+</body>
+</html>
