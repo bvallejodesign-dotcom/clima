@@ -1,85 +1,37 @@
-# 🌦️ Weather Frontend MVP
+# Weather Frontend – Módulo 3
 
-Este proyecto es un **MVP de una aplicación de clima**, desarrollado para practicar HTML5 semántico, Bootstrap y JavaScript básico. Incluye dos vistas principales: **Home** y **Detalle**, junto con navegación, diseño responsivo y flujo básico con eventos del DOM.
+## Descripción de la aplicación
 
----
+Weather Frontend es una aplicación web de clima desarrollada como proyecto académico.
+La app permite visualizar información climática de distintos **lugares (ciudades nacionales e internacionales)** mediante una interfaz clara y responsiva.
 
-## 🚀 Propósito
-Construir la primera versión funcional del frontend de una app de clima usando:
+La aplicación cuenta con:
+- Una vista **Home**, donde se muestran distintas ciudades organizadas en cards con información básica del clima (temperatura, estado, icono).
+- Una vista **Detalle**, donde se presenta información ampliada del lugar seleccionado, junto a un pronóstico semanal simulado.
 
-- **HTML5 semántico**
-- **Bootstrap 5** (CDN)
-- **JavaScript** para interacción básica
-- **Git/GitHub** para versionamiento
-
-Este proyecto permite explorar una temática libre: clima real, ciudades icónicas o clima ficticio.
+En esta iteración (Módulo 3), el foco está puesto en **mejorar la interfaz visual, la organización de estilos y la mantenibilidad del CSS**, manteniendo la funcionalidad base lograda en el módulo anterior.
 
 ---
 
-## 🎯 Objetivos de aprendizaje
+## Metodología de estilos
 
-- Estructurar páginas con etiquetas semánticas (header, main, section, footer).
-- Aplicar Bootstrap para layout responsivo mobile-first.
-- Utilizar el DOM para interacciones simples (clicks, navegación).
-- Gestionar un proyecto con Git/GitHub de forma ordenada.
+Para la organización de estilos se utiliza la metodología **BEM (Block, Element, Modifier)**.
 
----
+Esta metodología permite:
+- Nombres de clases claros y predecibles.
+- Separación lógica entre componentes.
+- Mejor escalabilidad y mantenimiento del código CSS/SASS.
 
-## 📄 Alcance del MVP
-
-### 🔹 Páginas incluidas
-- **Home:** Lista de 10+ localidades mostradas como cards de Bootstrap.
-- **Detalle:** Información extendida del clima de la localidad seleccionada (temperatura, humedad, viento, pronóstico semanal).
-
-### 🔹 Navegación
-- Navbar con enlaces a Home y Detalle.
-- Footer con información básica del proyecto.
+Ejemplos de clases utilizadas:
+- `.weather-app`, `.weather-app__header`, `.weather-app__home`
+- `.place-card`, `.place-card__name`, `.place-card__temp`
+- `.place-card--sunny`, `.place-card--rainy` (modificadores)
 
 ---
 
-## 🧩 Requisitos funcionales
-- funcionalidades de requerimientos
-- ✔️ 10+ localidades en Home como cards.
-- ✔️ Al hacer click en una ciudad, se navega a la vista Detalle.
-- ✔️ Vista Detalle con pronóstico semanal.
-- ✔️ Diseño responsivo (móvil ≤420px — escritorio ≥1024px).
-- ✔️ Interacción con JS (eventos básicos).
+## Estructura SASS
 
----
+Los estilos se desarrollan utilizando **SASS**, organizados en parciales para mejorar la modularidad y reutilización del código.
 
-## 🛠️ Requisitos técnicos
+Estructura principal:
 
-- Uso de **HTML5 semántico**.
-- **Bootstrap 5 por CDN** (CSS y JS).
-- Componentes mínimos:
-  - Navbar
-  - Grid (container, row, col)
-  - Cards
-  - Buttons / Badges / List-groups (según diseño)
-- GitHub con:
-  - Repo público `weather-frontend-m2`
-  - Mínimo 3 commits con mensajes descriptivos
-
----
-
-## 📦 Entregables
-
-- Proyecto comprimido en `.zip`
-- Archivo **README.md**
-- Enlace al repositorio público:  
-👉 *(Agrega aquí tu link de GitHub)*
-
----
-
-## 📁 Estructura del proyecto
-
-/weather-frontend-m2
-│── index.html
-│── detalle.html
-│── /css
-│ └── styles.css
-│── /js
-│ └── main.js
-│── /img
-│── README.md# clima
-# Clima-reconstituido
