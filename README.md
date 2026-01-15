@@ -82,3 +82,4 @@ Este proyecto permite explorar una temática libre: clima real, ciudades icónic
 │ └── main.js
 │── /img
 │── README.md# clima
+# Clima-reconstituido

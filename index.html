@@ -55,9 +55,9 @@ Licencia: MIT (opcional)
     }
   </style>
 </head>
-<body class="d-flex flex-column min-vh-100">
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<body class="weather-app d-flex flex-column min-vh-100">
+  <header class="weather-app__header">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container">
         <a class="navbar-brand" href="#" id="nav-home">WeatherMVP</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu" aria-controls="navmenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@ Licencia: MIT (opcional)
   </header>
 
   <main class="flex-fill">
-    <section id="home" class="py-4">
+    <div class="row g-3 weather-app__grid" id="cities-grid">
       <div class="container">
         <header class="d-flex align-items-center justify-content-between mb-3">
           <h1 class="h3 mb-0">Ciudades</h1>
@@ -93,18 +93,19 @@ Licencia: MIT (opcional)
     <section id="detail" class="py-4 d-none">
       <div class="container">
         <button class="btn btn-link mb-3" id="btn-back">← Volver</button>
-        <article class="card">
-          <div class="card-body">
-            <div class="d-flex align-items-center justify-content-between">
-              <div>
-                <h2 id="detail-city" class="h4 mb-1">Ciudad</h2>
-                <p class="mb-0 text-muted" id="detail-desc">Estado del clima</p>
-              </div>
-              <div class="text-end">
-                <div class="fs-3 fw-bold" id="detail-temp">--°C</div>
-                <div class="text-muted small" id="detail-humidity-wind">Humedad · Viento</div>
-              </div>
+        <article class="card place-card h-100">
+          <div class="card-body place-card__body d-flex justify-content-between">
+            <div class="place-card__info">
+              <h3 class="place-card__name h6 mb-1">Santiago</h3>
+              <p class="place-card__country small text-muted">Chile</p>
             </div>
+
+            <div class="place-card__weather text-end">
+              <div class="place-card__temp fs-5 fw-bold">22°C</div>
+              <div class="place-card__state small">Soleado</div>
+            </div>
+          </div>
+
 
             <hr>
             <h3 class="h6">Pronóstico semanal</h3>

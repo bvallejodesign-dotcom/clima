@@ -1,0 +1,11 @@
+.weather-app {
+  font-family: $font-base;
+
+  &__home {
+    background-color: $secondary-color;
+  }
+
+  &__grid {
+    margin-top: $spacing-md;
+  }
+}

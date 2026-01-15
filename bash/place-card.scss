@@ -1,0 +1,16 @@
+.place-card {
+  cursor: pointer;
+  @include card-hover;
+
+  &__name {
+    color: $text-color;
+  }
+
+  &__temp {
+    color: $primary-color;
+  }
+
+  &__state {
+    color: darken($text-color, 20%);
+  }
+}
